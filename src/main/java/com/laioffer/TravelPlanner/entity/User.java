@@ -13,7 +13,7 @@ public class User implements Serializable {
 
     @Id
     @Column(name="email")
-    private String emailId;
+    private String email;
 
     @Column(name="password")
     private String password;
@@ -27,12 +27,12 @@ public class User implements Serializable {
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Itinerary> itinerary;
 
-    public String getEmailId() {
-        return emailId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

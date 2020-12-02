@@ -18,22 +18,22 @@ public class MainController {
     private UserRepository userRepository;
 
     @PostMapping(path="/add")
-    public @ResponseBody String addNewCustomer (@RequestParam String emailId, @RequestParam String password) {
+    public @ResponseBody String addNewCustomer (@RequestParam String email, @RequestParam String password) {
         User n = new User();
-        n.setFirstName(emailId);
-        n.setLastName(password);
+        n.setEmail(email);
+        n.setPassword(password);
         userRepository.save(n);
         return "Saved";
     }
 
     @GetMapping(path = "/login")
-    public String login(@RequestParam String email, @RequestParam String password, Model model) {
-        List<User> users = userRepository.findByEmail(email);
-        if (users == null) {
+    public @ResponseBody String login(@RequestParam String email, @RequestParam String password, Model model) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
             log.warn("attempting to log in with the non-existed account");
             return "User has not registered";
         } else {
-            User user = users.get(0);
+
             if (user.getPassword().equals(password)) {
                 //todo, return name value to front, assume related el expression is ${name}
                 model.addAttribute("name", user.getFirstName()+ " " + user.getLastName());
