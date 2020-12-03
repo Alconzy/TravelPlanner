@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="user")
@@ -12,6 +13,9 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
     @Column(name="email")
     private String email;
 
@@ -24,8 +28,13 @@ public class User implements Serializable {
     @Column(name="lastname")
     private String lastName;
 
+    @Column(name = "active")
+    private int active;
+
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Itinerary> itinerary;
+
+
 
     public String getEmail() {
         return email;
@@ -68,6 +77,20 @@ public class User implements Serializable {
     }
 
 
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
 
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
