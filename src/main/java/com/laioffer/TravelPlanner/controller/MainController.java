@@ -2,6 +2,7 @@ package com.laioffer.TravelPlanner.controller;
 
 import javax.validation.Valid;
 
+import com.laioffer.TravelPlanner.entity.Itinerary;
 import com.laioffer.TravelPlanner.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Date;
+import java.util.List;
 
 
 @Controller
@@ -78,5 +82,24 @@ public class MainController {
         model.setViewName("errors/access_denied");
         return model;
     }
+
+    @RequestMapping(value= {"/history/{startDate}/{endDate}"},method = RequestMethod.GET)
+    public ModelAndView history(@PathVariable(value = "startDate") Date startDate, @PathVariable(value = "endDate") Date endDate){
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String userName = loggedInUser.getName();
+        User user = userService.findUserByEmail(userName);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user/history");
+        List<Itinerary> itinerary = user.getItinerary();
+        modelAndView.addObject("msg", "User Itinerary History");
+
+        for(int i = 0; i<itinerary.size(); i++){
+            if(itinerary.get(i).getStartDate().compareTo(startDate) >0  &&  itinerary.get(i).getEndDate().compareTo(endDate) <0){
+                modelAndView.addObject("itinerary",itinerary.get(i));
+            }
+        }
+        return modelAndView;
+    }
+
 }
 
