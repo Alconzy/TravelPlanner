@@ -68,10 +68,10 @@ public class MainController {
     @RequestMapping(value= {"/", "/home"}, method=RequestMethod.GET)
     public ModelAndView home() {
         ModelAndView model = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-
-        model.addObject("userName", user.getFirstName() + " " + user.getLastName());
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userService.findUserByEmail(auth.getName());
+//
+//        model.addObject("userName", user.getFirstName() + " " + user.getLastName());
         model.setViewName("home/home");
         return model;
     }

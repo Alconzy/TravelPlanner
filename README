@@ -1,9 +1,0 @@
-Use the application.properties file to configure the local database.
-
-Login json object
-{
-  "email": "456@gmail.com",
-  "password": "123"
-}
-
-

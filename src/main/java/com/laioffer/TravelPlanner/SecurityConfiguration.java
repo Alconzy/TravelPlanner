@@ -41,8 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
-                .antMatchers("/*/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated()
+                .antMatchers("/*/**").permitAll()
+//                .authenticated()
                 .and().csrf().disable()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/home").failureUrl("/login?error=true")
                 .and().addFilterAt(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
