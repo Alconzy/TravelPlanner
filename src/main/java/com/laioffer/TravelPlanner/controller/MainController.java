@@ -7,7 +7,6 @@ import com.laioffer.TravelPlanner.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.laioffer.TravelPlanner.entity.User;
-import com.laioffer.TravelPlanner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,23 +26,6 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value= {"/login"}, method=RequestMethod.GET)
-    public ModelAndView login() {
-        ModelAndView model = new ModelAndView();
-
-        model.setViewName("user/login");
-        return model;
-    }
-
-    @RequestMapping(value= {"/signup"}, method=RequestMethod.GET)
-    public ModelAndView signup() {
-        ModelAndView model = new ModelAndView();
-        User user = new User();
-        model.addObject("user", user);
-        model.setViewName("user/signup");
-
-        return model;
-    }
 
     @RequestMapping(value= {"/signup"}, method=RequestMethod.POST)
     public ModelAndView createUser(@Valid User user, BindingResult bindingResult) {
@@ -65,7 +47,7 @@ public class MainController {
         return model;
     }
 
-    @RequestMapping(value= {"/", "/home"}, method=RequestMethod.GET)
+    @RequestMapping(value= {"/"}, method=RequestMethod.GET)
     public ModelAndView home() {
         ModelAndView model = new ModelAndView();
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -76,12 +58,12 @@ public class MainController {
         return model;
     }
 
-    @RequestMapping(value= {"/access_denied"}, method=RequestMethod.GET)
-    public ModelAndView accessDenied() {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("errors/access_denied");
-        return model;
-    }
+//    @RequestMapping(value= {"/access_denied"}, method=RequestMethod.GET)
+//    public ModelAndView accessDenied() {
+//        ModelAndView model = new ModelAndView();
+//        model.setViewName("errors/access_denied");
+//        return model;
+//    }
 
     @RequestMapping(value= {"/history/{startDate}/{endDate}"},method = RequestMethod.GET)
     public ModelAndView history(@PathVariable(value = "startDate") Date startDate, @PathVariable(value = "endDate") Date endDate){

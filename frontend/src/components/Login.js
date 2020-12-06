@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Form, Icon, Input, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { API_ROOT } from '../const/constant';
 import { TOKEN_KEY } from '../const/constant';
 
@@ -10,8 +11,20 @@ class NormalLoginForm extends Component {
        this.props.form.validateFields((err, values) => {
            if (!err) {
                console.log('Received values of form: ', values);
+               axios.post("http://localhost:8080/login", values)
+                   .then(response => {
+                       console.log(response);
+                       console.log('changing')
+                       this.props.history.push('/home');
+                   })
+                   .catch(error => {
+                       console.log('error changed')
+                       console.log('error in login', error);
+                   });``
            }
        });
+
+       // axios.post()
    };
 
    render() {
@@ -48,7 +61,10 @@ class NormalLoginForm extends Component {
            </Form>
        );
    }
+
 }
+
+
 
 const Login = Form.create({ name: 'normal_login' })(NormalLoginForm);
 export default Login;
