@@ -30,7 +30,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
                 ObjectMapper mapper = new ObjectMapper();
                 AuthReq authReq = mapper.readValue(parsedReq, AuthReq.class);
 
-                UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword());
+                UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(authReq.getUsername(), authReq.getPassword());
                 setDetails(request, authRequest);
                 return this.getAuthenticationManager().authenticate(authRequest);
             }
