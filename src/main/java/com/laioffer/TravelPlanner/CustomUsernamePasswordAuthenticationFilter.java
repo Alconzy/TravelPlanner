@@ -3,6 +3,7 @@ package com.laioffer.TravelPlanner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.laioffer.TravelPlanner.entity.AuthReq;
+
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,7 +41,4 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
         }
         return null;
     }
-
-
-
 }
