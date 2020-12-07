@@ -23,6 +23,10 @@ public class ItineraryService {
     @Autowired
     ItineraryItemRepository itineraryItemRepository;
 
+    public Itinerary findById(Integer id) {
+        return itineraryRepository.findById(id).orElse(null);
+    }
+
     public Integer saveItinerary(SaveRequestBody saveRequestBody, User user) {
         List<String> dates = saveRequestBody.getDates();
         Itinerary itinerary = new Itinerary();
