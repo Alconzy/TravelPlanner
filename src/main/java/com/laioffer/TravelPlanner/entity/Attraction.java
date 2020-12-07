@@ -11,7 +11,9 @@ public class Attraction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name="place_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
     private String placeId;
 
     // first item of types array returned by Goolge place api
@@ -35,6 +37,14 @@ public class Attraction implements Serializable {
 
     @OneToMany(mappedBy="attraction", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private List<ItineraryItem> itineraryItem;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getPlaceId() {
         return placeId;

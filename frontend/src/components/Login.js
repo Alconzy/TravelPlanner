@@ -14,11 +14,9 @@ class NormalLoginForm extends Component {
                axios.post("http://localhost:8080/login", values)
                    .then(response => {
                        console.log(response);
-                       console.log('changing')
                        this.props.history.push('/home');
                    })
                    .catch(error => {
-                       console.log('error changed')
                        console.log('error in login', error);
                    });``
            }
