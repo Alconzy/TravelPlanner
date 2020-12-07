@@ -1,7 +1,7 @@
 package com.laioffer.TravelPlanner.controller;
 
 import com.laioffer.TravelPlanner.entity.*;
-import com.laioffer.TravelPlanner.service.ItineraryItemService;
+import com.laioffer.TravelPlanner.service.ItineraryService;
 import com.laioffer.TravelPlanner.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class MainController {
     private UserService userService;
 
     @Autowired
-    private ItineraryItemService itineraryItemService;
+    private ItineraryService itineraryService;
 
     @PostMapping(value = "/register")
     public RegisterResponseBody register(@RequestBody User user) {
@@ -41,15 +42,26 @@ public class MainController {
 
     @PostMapping(value = "/save")
     public SaveResponseBody save(@RequestBody SaveRequestBody saveRequestBody) {
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String userName = loggedInUser.getName();
+        User user = userService.findUserByEmail(userName);
         SaveResponseBody saveResponseBody;
-        Integer id = saveRequestBody.getItineraryId();
-        itineraryItemService.saveItinerary(saveRequestBody);
-        saveResponseBody = new SaveResponseBody("OK",id,"saved");
+
+        Integer itineraryId = itineraryService.saveItinerary(saveRequestBody, user);
+        saveResponseBody = new SaveResponseBody("OK", itineraryId, "saved");
         return saveResponseBody;
     }
 
+    @GetMapping(value = "/get_history")
+    public List<GetHistoryResponseBody> getHistory(@RequestBody GetHistoryRequestBody request) {
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String userName = loggedInUser.getName();
+        User user = userService.findUserByEmail(userName);
 
 
+        List<GetHistoryResponseBody> response = itineraryService.getHistory(user,request.startDate, request.endDate);
+        return response;
+    }
 
     @RequestMapping(value= {"/"}, method=RequestMethod.GET)
     public ModelAndView home() {
@@ -61,6 +73,8 @@ public class MainController {
         model.setViewName("home");
         return model;
     }
+
+
 
 //    @RequestMapping(value= {"/access_denied"}, method=RequestMethod.GET)
 //    public ModelAndView accessDenied() {
@@ -79,11 +93,11 @@ public class MainController {
         List<Itinerary> itinerary = user.getItinerary();
         modelAndView.addObject("msg", "User Itinerary History");
 
-        for(int i = 0; i<itinerary.size(); i++){
-            if(itinerary.get(i).getStartDate().compareTo(startDate) >0  &&  itinerary.get(i).getEndDate().compareTo(endDate) <0){
-                modelAndView.addObject("itinerary",itinerary.get(i));
-            }
-        }
+//        for(int i = 0; i<itinerary.size(); i++){
+//            if(itinerary.get(i).getStartDate().compareTo(startDate) >0  &&  itinerary.get(i).getEndDate().compareTo(endDate) <0){
+//                modelAndView.addObject("itinerary",itinerary.get(i));
+//            }
+//        }
         return modelAndView;
     }
 
