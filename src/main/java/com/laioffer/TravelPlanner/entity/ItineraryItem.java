@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Optional;
 
 @Entity
 @Table(name="itinerary_item")
@@ -28,7 +30,7 @@ public class ItineraryItem implements Serializable {
     private Attraction attraction;
 
     @Column(name="visit_date")
-    private Date visitDate;
+    private LocalDate visitDate;
 
     @Column(name="photo_ref")
     private String photoRef;
@@ -66,11 +68,11 @@ public class ItineraryItem implements Serializable {
         this.attraction = attraction;
     }
 
-    public Date getVisitDate() {
+    public LocalDate getVisitDate() {
         return visitDate;
     }
 
-    public void setVisitDate(Date visitDate) {
+    public void setVisitDate(LocalDate visitDate) {
         this.visitDate = visitDate;
     }
 

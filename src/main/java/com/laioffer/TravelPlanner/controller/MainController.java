@@ -1,17 +1,13 @@
 package com.laioffer.TravelPlanner.controller;
 
-import javax.validation.Valid;
-
-import com.laioffer.TravelPlanner.entity.Itinerary;
-import com.laioffer.TravelPlanner.entity.RegisterResponseBody;
+import com.laioffer.TravelPlanner.entity.*;
+import com.laioffer.TravelPlanner.service.ItineraryItemService;
 import com.laioffer.TravelPlanner.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.laioffer.TravelPlanner.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,6 +20,9 @@ public class MainController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ItineraryItemService itineraryItemService;
 
     @PostMapping(value = "/register")
     public RegisterResponseBody register(@RequestBody User user) {
@@ -38,6 +37,15 @@ public class MainController {
             registerResponseBody = new RegisterResponseBody("success",user.getEmail(),"registered");
         }
         return registerResponseBody;
+    }
+
+    @PostMapping(value = "/save")
+    public SaveResponseBody save(@RequestBody SaveRequestBody saveRequestBody) {
+        SaveResponseBody saveResponseBody;
+        Integer id = saveRequestBody.getItineraryId();
+        itineraryItemService.saveItinerary(saveRequestBody);
+        saveResponseBody = new SaveResponseBody("OK",id,"saved");
+        return saveResponseBody;
     }
 
 

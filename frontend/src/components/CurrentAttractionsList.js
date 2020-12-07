@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from 'react';
 import {Tabs, Radio} from 'antd';
 import Attraction from "./Attraction";
 import SearchAttractionButton from "./SearchAttractionButton";
