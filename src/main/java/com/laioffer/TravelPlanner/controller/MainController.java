@@ -1,11 +1,14 @@
 package com.laioffer.TravelPlanner.controller;
 
 import com.laioffer.TravelPlanner.entity.*;
+import com.laioffer.TravelPlanner.service.ItineraryItemService;
 import com.laioffer.TravelPlanner.service.ItineraryService;
 import com.laioffer.TravelPlanner.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class MainController {
 
     @Autowired
     private ItineraryService itineraryService;
+
+    @Autowired
+    private ItineraryItemService itineraryItemService;
 
     @PostMapping(value = "/register")
     public RegisterResponseBody register(@RequestBody User user) {
@@ -61,6 +67,19 @@ public class MainController {
 
         List<GetHistoryResponseBody> response = itineraryService.getHistory(user,request.startDate, request.endDate);
         return response;
+    }
+
+    @GetMapping(value = "/get_attractions")
+    public ResponseEntity<List<GetAttractionsResponseBody>> getAttractions(@RequestBody GetAttractionsRequestBody request) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("status","200");
+        responseHeaders.set("message","success");
+        Integer itineraryId = request.getItineraryId();
+        Itinerary itinerary = itineraryService.findById(itineraryId);
+        List<GetAttractionsResponseBody> response = itineraryItemService.getAttractions(itinerary);
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(response);
     }
 
     @RequestMapping(value= {"/"}, method=RequestMethod.GET)
