@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { API_ROOT } from '../const/constant.js';
 import { Link } from "react-router-dom";
+import axios from 'axios'
 
 class RegistrationForm extends Component {
    state = {
@@ -36,6 +37,14 @@ class RegistrationForm extends Component {
        this.props.form.validateFields((err, values) => {
            if (!err) {
                console.log('Received values of form: ', values);
+               axios.post("http://localhost:8080/register", values)
+                   .then(response => {
+                       console.log(response);
+                       this.props.history.push('/login');
+                   })
+                   .catch(error => {
+                       console.log('error in register', error);
+                   });
            }
        });
    };
@@ -70,7 +79,7 @@ class RegistrationForm extends Component {
            <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register">
                <Form.Item label="Username" >
                    {
-                     getFieldDecorator('username', {
+                     getFieldDecorator('email', {
                        rules: [{ required: true, message: 'Please input your username!' }],
                      })(<Input />)
                    }
