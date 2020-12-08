@@ -18,7 +18,7 @@ class NormalLoginForm extends Component {
                    })
                    .catch(error => {
                        console.log('error in login', error);
-                   });``
+                   });
            }
        });
 
