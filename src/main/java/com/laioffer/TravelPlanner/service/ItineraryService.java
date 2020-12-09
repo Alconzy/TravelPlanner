@@ -35,15 +35,15 @@ public class ItineraryService {
         itinerary.setUser(user);
         itineraryRepository.save(itinerary);
 
-        List<List<Integer>> places = saveRequestBody.getPlaces();
+        List<List<String>> places = saveRequestBody.getPlaces();
 
         for (int i = 0; i < dates.size(); i++) {
             LocalDate date = LocalDate.parse(dates.get(i), DateTimeFormatter.ISO_LOCAL_DATE);
             for (int p = 0; p < places.get(i).size(); p++) {
-                Integer target = places.get(i).get(p);
+                String target = places.get(i).get(p);
                 ItineraryItem itineraryItem = new ItineraryItem();
                 itineraryItem.setVisitDate(date);
-                itineraryItem.setAttraction(attractionRepository.findById(target).orElse(null));
+                itineraryItem.setAttraction(attractionRepository.findByPlaceId(target));
                 itineraryItem.setItinerary(itinerary);
                 itineraryItemRepository.save(itineraryItem);
             }
