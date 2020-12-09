@@ -43,12 +43,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/register","/built/bundle.js").permitAll()
                 .antMatchers("/*/**").hasAuthority("ADMIN").anyRequest().authenticated()
                 .and().csrf().disable()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/home").failureUrl("/login?error=true")
+                .formLogin().loginPage("/login")
                 .and().addFilterAt(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http
                 .logout()
                 .logoutUrl("/logout");
-
+        http.cors();
     }
 
     @Bean
