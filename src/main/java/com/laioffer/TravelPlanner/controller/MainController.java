@@ -55,7 +55,7 @@ public class MainController {
         return saveResponseBody;
     }
 
-    @GetMapping(value = "/get_history")
+    @PostMapping(value = "/get_history")
     public List<GetHistoryResponseBody> getHistory(@RequestBody GetHistoryRequestBody request) {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String userName = loggedInUser.getName();
@@ -64,7 +64,7 @@ public class MainController {
         return response;
     }
 
-    @GetMapping(value = "/get_attractions")
+    @PostMapping(value = "/get_attractions")
     public ResponseEntity<List<GetAttractionsResponseBody>> getAttractions(@RequestBody GetAttractionsRequestBody request) {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("status","200");
@@ -80,7 +80,7 @@ public class MainController {
     @RequestMapping(value= {"/"}, method=RequestMethod.GET)
     public ModelAndView home() {
         ModelAndView model = new ModelAndView();
-        model.setViewName("home");
+        model.setViewName("index");
         return model;
     }
 }
